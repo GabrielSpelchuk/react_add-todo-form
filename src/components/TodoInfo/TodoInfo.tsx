@@ -9,7 +9,7 @@ interface TodoInterface {
 }
 
 export const TodoInfo = ({ users, todo }: TodoInterface) => {
-  const user = users.find(u => u.id === todo.userId);
+  const user = users.find(findUser => findUser.id === todo.userId);
 
   return (
     <article

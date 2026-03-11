@@ -5,9 +5,18 @@ import todosFromServer from './api/todos';
 
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
+import Todo from './types/Todo';
+import User from './types/User';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const enrichTodo = (todo: Todo) => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
+  });
+
+  const [todos, setTodos] = useState<Todo[]>(() =>
+    todosFromServer.map(enrichTodo),
+  );
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [triedSubmitTitle, setTriedSubmitTitle] = useState(false);
@@ -21,7 +30,8 @@ export const App = () => {
     return false;
   };
 
-  const nextId = todos.length > 0 ? Math.max(...todos.map(t => t.id)) + 1 : 1;
+  const nextId =
+    todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
 
   return (
     <div className="App">
@@ -40,11 +50,16 @@ export const App = () => {
             return;
           }
 
-          const todo = {
+          const selectedUser: User | undefined = usersFromServer.find(
+            u => u.id === userId,
+          );
+
+          const todo: Todo = {
             id: nextId,
             title,
             completed: false,
             userId,
+            user: selectedUser,
           };
 
           setTodos([...todos, todo]);
