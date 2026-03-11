@@ -1,15 +1,13 @@
 import cn from 'classnames';
-import User from '../../types/User';
 import Todo from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
 interface TodoInterface {
-  users: User[];
   todo: Todo;
 }
 
-export const TodoInfo = ({ users, todo }: TodoInterface) => {
-  const user = users.find(findUser => findUser.id === todo.userId);
+export const TodoInfo = ({ todo }: TodoInterface) => {
+  const { user } = todo;
 
   return (
     <article

@@ -110,7 +110,7 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <TodoList users={usersFromServer} todoList={todos} />
+        <TodoList todoList={todos} />
       </section>
     </div>
   );
